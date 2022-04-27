@@ -1,0 +1,73 @@
+### objective 1
+clc
+clear all
+t=case9;
+pf=runpf(t);
+i=0.95;
+for j=1:10
+    t.gen(:,6)=i;
+    pf2=runpf(t);
+    vrec=pf2.bus(:,8);
+    vr(j)=(i-min(vrec))/min(vrec);
+    pgen=sum(pf2.gen(:,2));
+    pout=sum(pf2.bus(:,3));
+    eff(j)=pout/pgen;
+    i=i+0.01;
+end
+subplot(1,2,1)
+plot(vr)
+title('voltage regulation')
+subplot(1,2,2)
+plot(eff)
+title('efficiency')
+
+###### objective 2
+clc
+clear all
+t=case9;
+%%pf=runpf(t);
+t.gen(:,6)=1;
+i=0.00;
+for j=1:10
+    t.bus(:,3)=(1+i)*(t.bus(:,3));
+    t.bus(:,4)=(1+i)*(t.bus(:,4));
+    pf2=runpf(t);
+    vrec=pf2.bus(:,8);
+    vr(j)=(i-min(vrec))/min(vrec);
+    pgen=sum(pf2.gen(:,2));
+    pout=sum(pf2.bus(:,3));
+    eff(j)=pout/pgen;
+    i=i+0.01;
+end
+subplot(1,2,1)
+plot(vr)
+title('voltage regulation')
+subplot(1,2,2)
+plot(eff)
+title('efficiency')
+    
+#### objective 3
+clear all
+t=case9;
+%%pf=runpf(t);
+t.gen(:,6)=1;
+i=0.00;
+for j=1:10
+    t.branch(:,3)=(1+i)*t.branch(:,3);
+    t.branch(:,4)=(1+i)*t.branch(:,4);
+    pf2=runpf(t);
+    vrec=pf2.bus(:,8);
+    vr(j)=(i-min(vrec))/min(vrec);
+    pgen=sum(pf2.gen(:,2));
+    pout=sum(pf2.bus(:,3));
+    eff(j)=pout/pgen;
+    i=i+0.01;
+end
+subplot(1,2,1)
+plot(vr)
+title('voltage regulation')
+subplot(1,2,2)
+plot(eff)
+title('efficiency')
+    
+    
